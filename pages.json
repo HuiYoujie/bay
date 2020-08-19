@@ -55,12 +55,15 @@
 		}
 	],
 
+	// 全局样式
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
+	
+	// tabBar
 	"tabBar": {
 		"borderStyle": "black",
 		"backgroundColor": "#333",
