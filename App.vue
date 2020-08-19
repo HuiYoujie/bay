@@ -6,15 +6,17 @@
 <!-- const config = require('./config') -->
 
 <script>
+	const config = require('./config.js')
 	export default {
+		// 全局变量
+		globalData: {
+			appid: config.appid,
+			isRelease: config.isRelease,
+			version: config.version,
+		},
+		
 		onLaunch: function() {
 			console.log('App Launch');
-
-			// globalData: {
-			// 	appid: config.appid,
-			// 	isRelease: config.isRelease,
-			// 	version: config.version,
-			// },
 
 			setTimeout(() => {
 				uni.setTabBarBadge({
@@ -27,6 +29,9 @@
 			}, 1000);
 
 			const phoneInfo = wx.getSystemInfoSync()
+			this.$scope.globalData.phoneInfo = {
+				phoneInfo,
+			}
 
 			if (!wx.cloud) {
 				console.error('请使用 2.2.3 或以上的基础库以使用云能力')
@@ -41,9 +46,6 @@
 					traceUser: true,
 				})
 			}
-			// this.globalData = {
-			// 	phoneInfo,
-			// }
 		},
 		onShow: function() {
 			console.log('App Show');

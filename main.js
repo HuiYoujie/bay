@@ -3,12 +3,11 @@ import App from './App'
 import uView from "uview-ui";
 const config = require('./config')
 
-const GLOBAL = new Map()
-GLOBAL.set('appid', config.appid)
-GLOBAL.set('isRelease', config.isRelease)
-GLOBAL.set('shareTitle', config.shareTitle)
-
-Vue.prototype.globalData = GLOBAL
+// const GLOBAL = new Map()
+// GLOBAL.set('appid', config.appid)
+// GLOBAL.set('isRelease', config.isRelease)
+// GLOBAL.set('shareTitle', config.shareTitle)
+// Vue.prototype.globalData = GLOBAL
 
 Vue.use(uView);
 
@@ -20,9 +19,6 @@ const app = new Vue({
 	...App
 })
 app.$mount()
-
-
-
 
 
 	// "subpackages": [
