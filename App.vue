@@ -4,6 +4,7 @@
 </style>
 <!-- <script src="./config"></script> -->
 <!-- const config = require('./config') -->
+
 <script>
 	export default {
 		onLaunch: function() {
