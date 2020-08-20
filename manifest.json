@@ -52,6 +52,7 @@
         /* 小程序特有相关 */
         "usingComponents" : true,
         "appid" : "wxf2409c07e5d4591a",
+		"projectname": "bay",
         "packOptions" : {
 			
         },

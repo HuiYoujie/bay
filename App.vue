@@ -2,11 +2,10 @@
 	/* 注意要写在第一行，同时给style标签加入lang="scss"属性 */
 	@import "uview-ui/index.scss";
 </style>
-<!-- <script src="./config"></script> -->
-<!-- const config = require('./config') -->
 
 <script>
 	const config = require('./config.js')
+	const log = require('./utils/log.js')
 	export default {
 		// 全局变量
 		globalData: {
@@ -16,7 +15,11 @@
 		},
 		
 		onLaunch: function() {
-			console.log('App Launch');
+			const phoneInfo = wx.getSystemInfoSync()
+			this.$scope.globalData.phoneInfo = {
+				phoneInfo,
+			}
+			log.i(this.$scope.globalData);
 
 			setTimeout(() => {
 				uni.setTabBarBadge({
@@ -27,11 +30,6 @@
 					index: 3
 				});
 			}, 1000);
-
-			const phoneInfo = wx.getSystemInfoSync()
-			this.$scope.globalData.phoneInfo = {
-				phoneInfo,
-			}
 
 			if (!wx.cloud) {
 				console.error('请使用 2.2.3 或以上的基础库以使用云能力')
@@ -113,7 +111,6 @@
 			v1 = v1.split('.')
 			v2 = v2.split('.')
 			const len = Math.max(v1.length, v2.length)
-
 			while (v1.length < len) {
 				v1.push('0')
 			}
@@ -123,7 +120,6 @@
 			for (let i = 0; i < len; i++) {
 				const num1 = parseInt(v1[i])
 				const num2 = parseInt(v2[i])
-
 				if (num1 > num2) {
 					return 1
 				} else if (num1 < num2) {

@@ -1,25 +1,25 @@
 import Vue from 'vue'
+import store from './store'
 import App from './App'
 import uView from "uview-ui";
 const config = require('./config')
+const log = require('./utils/log.js')
 
-// const GLOBAL = new Map()
-// GLOBAL.set('appid', config.appid)
-// GLOBAL.set('isRelease', config.isRelease)
-// GLOBAL.set('shareTitle', config.shareTitle)
-// Vue.prototype.globalData = GLOBAL
+Vue.prototype.log = {...log}
 
+// 使用插件
 Vue.use(uView);
 
+// 阻止生产模式消息
 Vue.config.productionTip = false
 
 App.mpType = 'app'
 
 const app = new Vue({
-	...App
+	...App,
+	store
 })
 app.$mount()
-
 
 	// "subpackages": [
 	// 	{
