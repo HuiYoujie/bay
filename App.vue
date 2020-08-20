@@ -19,15 +19,16 @@
 			this.$scope.globalData.phoneInfo = phoneInfo
 			log.i(this.$scope.globalData);
 
-			setTimeout(() => {
-				uni.setTabBarBadge({
-					index: 1,
-					text: '31'
-				});
-				uni.showTabBarRedDot({
-					index: 3
-				});
-			}, 1000);
+			// tabbar角标
+			// setTimeout(() => {
+			// 	uni.setTabBarBadge({
+			// 		index: 1,
+			// 		text: '31'
+			// 	});
+			// 	uni.showTabBarRedDot({
+			// 		index: 3
+			// 	});
+			// }, 1000);
 
 			if (!wx.cloud) {
 				console.error('请使用 2.2.3 或以上的基础库以使用云能力')
@@ -44,10 +45,10 @@
 			}
 		},
 		onShow: function() {
-			console.log('App Show');
+			log.i('App Show');
 		},
 		onHide: function() {
-			console.log('App Hide');
+			log.w('App Hide');
 		},
 
 		//获取设备ip地址
