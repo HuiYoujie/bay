@@ -7,6 +7,7 @@ const log = require('./utils/log.js')
 
 Vue.prototype.log = {...log}
 
+
 // 使用插件
 Vue.use(uView);
 
