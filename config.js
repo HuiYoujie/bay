@@ -1,8 +1,8 @@
 const {
 	appId,
 	envVersion, // release-正式版 | trial-体验版 | develop-开发版
-	version
-} = wx.getAccountInfoSync().miniProgram
+	version = ''
+} = uni.getAccountInfoSync().miniProgram
 
 module.exports = {
 	appid: appId, // 您的小程序的appid，购物单功能需要使用

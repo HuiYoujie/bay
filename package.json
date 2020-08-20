@@ -11,7 +11,9 @@
     "url": "git+https://github.com/HuiYoujie/bay.git"
   },
   "keywords": [
-    "storage"
+    "storage",
+	"cloud",
+	"bay"
   ],
   "author": "hyj",
   "license": "ISC",

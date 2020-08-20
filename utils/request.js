@@ -21,7 +21,7 @@ function FetchRequest(url, data, method = 'GET', cache = 0, header = {}, noSubDo
    * 缓存相关
    */
   function Storage(resolve, reject) {
-    wx.getStorage({
+    uni.getStorage({
       key: request_key,
       success: StorageSuccess,
       fail: StorageError
@@ -58,7 +58,7 @@ function FetchRequest(url, data, method = 'GET', cache = 0, header = {}, noSubDo
     if (noSubDomain) {
       _url = API_BASE_URL + url
     }
-    wx.request({
+    uni.request({
       url: _url,
       method: method.toUpperCase(),
       data: data,
@@ -90,7 +90,7 @@ function FetchRequest(url, data, method = 'GET', cache = 0, header = {}, noSubDo
      */
     function FetchError(err) {
       if (err) {
-        wx.showToast({
+        uni.showToast({
           title: err.errMsg || err.message,
           icon: 'none',
           duration: 3000
@@ -106,7 +106,7 @@ function FetchRequest(url, data, method = 'GET', cache = 0, header = {}, noSubDo
   function SaveCache(res) {
     if (cache > 0 && res.statusCode >= 200 && res.statusCode < 300) {
       res.timestamp = Date.parse(new Date()) + cache * 1000;
-      wx.setStorage({
+      uni.setStorage({
         key: GetStorageKey(url, method),
         data: res,
       })

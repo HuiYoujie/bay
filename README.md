@@ -10,6 +10,9 @@
 
 - [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
 
+## uni
+- 由于1.5.6版本新增了this.$u.sys()和this.$u.os()属性，因为属性是初始化时执行一次，导致获取首页和 内页通过this.$u.sys获取windowHeight高度可能不准确的问题，详见全局赋值设备信息的陷阱。
+
 ## sdk
 # @vant
 - npm i @vant/weapp -S --production
