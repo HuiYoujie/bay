@@ -6,6 +6,7 @@ const {
 
 module.exports = {
 	appid: appId, // 您的小程序的appid，购物单功能需要使用
+	envVersion, // 环境
 	isRelease: envVersion === 'release', // 是否正式版
 	version, // 线上版本号
 	shareTitle: '一起来整理我们的家吧！', // 首页转发的时候话术
