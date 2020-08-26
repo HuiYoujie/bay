@@ -8,8 +8,8 @@
 		{
 			"path": "pages/tabbar/space/space",
 			"style": {
-				"navigationBarTitleText": "首页"
-				// "navigationStyle": "custom"
+				"navigationBarTitleText": "首页",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -39,19 +39,19 @@
 		{
 			"path": "pages/tabbar-3-detial/tabbar-3-release/tabbar-3-release",
 			"style": {
-				"navigationBarTitleText": "空间"
+				"navigationBarTitleText": "图文"
 			}
 		},
 		{
 			"path": "pages/tabbar-3-detial/tabbar-3-video/tabbar-3-video",
 			"style": {
-				"navigationBarTitleText": "空间"
+				"navigationBarTitleText": "视频"
 			}
 		},
 		{
 			"path": "pages/tabbar-3-detial/tabbar-3-qa/tabbar-3-qa",
 			"style": {
-				"navigationBarTitleText": "空间"
+				"navigationBarTitleText": "QA"
 			}
 		}
 	],

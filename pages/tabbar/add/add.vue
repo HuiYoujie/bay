@@ -70,7 +70,6 @@ export default {
 		margin-top: -400upx;
 		width: 200upx;
 		height: 200upx;
-		// z-index: -1;
 		opacity: 0;
 		transition: opacity 0.3s;
 		&.active {

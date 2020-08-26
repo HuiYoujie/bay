@@ -1,28 +1,67 @@
 <template>
-    <view>
-		<!-- <u-navbar :is-back="false" title="首页" height="44">
-			<u-icon slot="right" name="search"></u-icon>
-		</u-navbar> -->
-        <view class="wrap">
+    <view class="u-skeleton">
+        <!-- 导航栏 -->
+        <u-navbar
+            title="首页"
+            title-color="#333"
+            back-icon-color="#efefef"
+            back-icon-name="plus"
+            :custom-back="showPopup"
+            :height="44"
+            :immersive="true"
+            :background="{ backgroundColor: '#1ab16c' }"
+            :border-bottom="false"
+        ></u-navbar>
+
+        <!-- 左侧弹层 -->
+        <u-popup
+            border-radius="10"
+            v-model="popup_show"
+            @open="popupOpen"
+            @close="popupClose"
+            length="75%"
+            closeable="closeable"
+            close-icon-pos
+            safe-area-inset-bottom="true"
+        >
+            <view class="u-flex flex-col u-popup-cont">
+				<u-gap height="80"></u-gap>
+                <u-button class="u-m-t-60" size="medium" @click="popup_show = false;">关闭弹窗</u-button>
+            </view>
+        </u-popup>
+
+        <!--  -->
+        <!-- <u-action-sheet
+            :cancel-btn="cancel"
+            :mask-close-able="maskClick"
+            :tips="tips"
+            @click="click"
+            :list="list"
+            v-model="show"
+            :safe-area-inset-bottom="true"
+        ></u-action-sheet>-->
+
+        <!-- 页面内容 -->
+        <view class="wrap ">
             <!-- tab盒子 -->
             <view class="u-flex u-row-between u-tabs-box">
                 <u-tabs-swiper
                     ref="uTabs"
-					class="u-flex-1"
+                    class="u-flex-1 u-skeleton-fillet"
                     :list="tabsList"
                     name="area_name"
                     :current="current"
                     @change="tabsChange"
                     :is-scroll="true"
                     swiperWidth="750"
-					bg-color="$theme-color"
-					active-color="#fff"
-					inactive-color="#ddd"
-					bold="false"
+                    bg-color="$theme-color"
+                    active-color="#fff"
+                    inactive-color="#dedede"
+                    bold="false"
                 ></u-tabs-swiper>
-				<view class="u-flex u-row-center grid-icon-box">
-					<u-icon name="grid" size="40" color="#fff"></u-icon>
-				</view>
+                <view class="u-flex u-row-center grid-icon-box">
+                    <u-icon class="u-skeleton-circle" name="grid" size="40" color="#efefef"></u-icon>
+                </view>
             </view>
             <!-- 内容盒子 -->
             <swiper
@@ -31,26 +70,43 @@
                 @transition="transition"
                 @animationfinish="animationfinish"
             >
-				<swiper-item class="swiper-item" v-for="(item, index) in tabsList" :key="index">
+                <swiper-item class="swiper-item" v-for="(item, index) in tabsList" :key="index">
                     <scroll-view
                         scroll-y
                         style="height: 100%;width: 100%;"
                         @scrolltolower="reachBottom"
                     >
                         <view class="page-box">
-                            <view class="order"></view>
-                            <u-loadmore :status="loadStatus[0]" bgcolor="#f2f2f2"></u-loadmore>
+                            <view v-if="tabsList.length > 10" class="u-flex flex-col u-col-top container u-skeleton-fillet">
+								<block v-for="(item, index) in tabsList" :key="index">
+									<text class="u-skeleton-fillet">{{item.area_name}}</text>
+								</block>
+								<view class="u-m-t-40">
+									<u-loadmore class="u-skeleton-fillet" :status="loadStatus[0]" bgcolor="#f2f2f2"></u-loadmore>
+								</view>
+							</view>
+                        	<view v-else class="u-m-t-80">
+								<u-empty  class="u-skeleton-fillet" text="暂无储物空间" mode="list"></u-empty>
+							</view>
                         </view>
                     </scroll-view>
                 </swiper-item>
             </swiper>
         </view>
+
+		<u-skeleton :loading="skeleton_loading" :animation="false" el-color="#ddd" bg-color="#fff"></u-skeleton>
+
+        <u-toast ref="uToast"></u-toast>
     </view>
 </template>
 <script>
 export default {
     data() {
         return {
+			// 骨架屏
+			skeleton_loading: true,
+
+            // content页面相关数据
             tabsList: [
                 {
                     area_name: "主卧",
@@ -77,17 +133,28 @@ export default {
             swiperCurrent: 0, // swiper组件的current值，表示当前那个swiper-item是活动的
             dx: 0,
             loadStatus: ["loadmore", "loadmore", "loadmore", "loadmore"],
+
+            // 顶部-左侧-底部相关数据
+            popup_show: false,
         };
     },
     onLoad() {
-		// 骨架屏
-		this.getOrderList(0)
+        // 骨架屏
+		this.getOrderList(0);	
+
+		setTimeout(() => {
+			this.skeleton_loading = false;
+		}, 2000)
 	},
+	
     methods: {
-		getOrderList(i) {
-			this.loadStatus.splice(this.current,1,"loadmore")
-		},
-		
+        /**
+         * 页面内容相关数据
+         */
+        getOrderList(i) {
+            this.loadStatus.splice(this.current, 1, "loadmore");
+        },
+
         // reachBottom() {
         // 	// 此tab为空数据
         // 	if(this.current != 2) {
@@ -117,26 +184,91 @@ export default {
             this.swiperCurrent = current;
             this.current = current;
         },
+
+        /**
+         * 顶部-左侧-底部相关数据
+         */
+        showPopup() {
+            this.popup_show = true;
+        },
+        addHome() {},
+        // 弹层打开
+        popupOpen() {},
+        // 弹层关闭
+        popupClose() {},
+    },
+
+    onShow: function () {
+        // Do something when page show.
+	},
+	
+    onReady: function () {
+        // Do something when page ready.
+	},
+	
+    onHide: function () {
+        // Do something when page hide.
+	},
+	
+    onUnload: function () {
+        // Do something when page close.
+	},
+	
+    onPullDownRefresh: function () {
+        // Do something when pull down.
+	},
+	
+    onReachBottom: function () {
+        // Do something when page reach bottom.
+	},
+	
+    onShareAppMessage: function () {
+        // return custom share data when user share.
+	},
+	
+    onPageScroll: function () {
+        // Do something when page scroll
+	},
+	
+    onResize: function () {
+        // Do something when page resize
+	},
+	
+    onTabItemTap(item) {
+        console.log(item.index);
+        console.log(item.pagePath);
+        console.log(item.text);
     },
 };
 </script>
 
 <style lang="scss" scoped>
+.u-popup-cont {
+	height: 100%;
+}
 .wrap {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - var(--window-top)); //  - 88upx
-	width: 100%;
-	.u-tabs-box {
-		background-color: $theme-color;
-		.grid-icon-box {
-			width: 80upx;
-			height: 80upx;
-		}
-	}
+    height: calc(100vh - var(--window-top) - 44px);
+    width: 100%;
+    margin-top: calc(44px + 20px);
+    .u-tabs-box {
+        background-color: $theme-color;
+        .grid-icon-box {
+            width: 80upx;
+            height: 80upx;
+        }
+    }
     .swiper-box {
         .swiper-item {
-            height: 100%;
+			height: 100%;
+			.page-box {
+				padding: 30upx;
+				// .container {
+				// 	width: 100%;
+				// 	height: 100%;
+				// }
+			}
         }
     }
 }

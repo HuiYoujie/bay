@@ -2,14 +2,15 @@ import Vue from 'vue'
 import store from './store'
 import App from './App'
 import uView from "uview-ui";
-const config = require('./config')
+import moment from 'moment';
+// const config = require('./config')
 const log = require('./utils/log.js')
 
 Vue.prototype.log = {...log}
 
-
 // 使用插件
 Vue.use(uView);
+Vue.use(moment);
 
 // 阻止生产模式消息
 Vue.config.productionTip = false

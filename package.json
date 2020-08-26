@@ -12,8 +12,8 @@
   },
   "keywords": [
     "storage",
-	"cloud",
-	"bay"
+    "cloud",
+    "bay"
   ],
   "author": "hyj",
   "license": "ISC",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/HuiYoujie/bay#readme",
   "dependencies": {
+    "moment": "^2.27.0",
     "uview-ui": "^1.6.2"
   }
 }

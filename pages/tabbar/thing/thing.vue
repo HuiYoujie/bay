@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		页面 - 2
+		<u-search v-model="value" @change="change" @custom="custom" @search="search" :shape="shape" :clearabled="clearabled" :show-action="showAction" :input-align="inputAlign" @clear="clear"></u-search>
 	</view>
 </template>
 
