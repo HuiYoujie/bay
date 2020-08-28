@@ -3,12 +3,11 @@
         <!-- 导航栏 -->
         <u-navbar
             title="首页"
-            title-color="#333"
+            title-color="#fff"
             back-icon-color="#efefef"
             back-icon-name="plus"
+            height="44"
             :custom-back="showPopup"
-            :height="44"
-            :immersive="true"
             :background="{ backgroundColor: '#1ab16c' }"
             :border-bottom="false"
         ></u-navbar>
@@ -42,7 +41,7 @@
         ></u-action-sheet>-->
 
         <!-- 页面内容 -->
-        <view class="wrap ">
+        <view class="wrap" :style="{height: (phoneInfo.windowHeight - phoneInfo.statusBarHeight - 44) + 'px'}">
             <!-- tab盒子 -->
             <view class="u-flex u-row-between u-tabs-box">
                 <u-tabs-swiper
@@ -77,7 +76,7 @@
                         @scrolltolower="reachBottom"
                     >
                         <view class="page-box">
-                            <view v-if="tabsList.length > 10" class="u-flex flex-col u-col-top container u-skeleton-fillet">
+                            <view v-if="tabsList.length > 10" class="u-flex flex-col u-col-top u-skeleton-fillet container">
 								<block v-for="(item, index) in tabsList" :key="index">
 									<text class="u-skeleton-fillet">{{item.area_name}}</text>
 								</block>
@@ -85,8 +84,11 @@
 									<u-loadmore class="u-skeleton-fillet" :status="loadStatus[0]" bgcolor="#f2f2f2"></u-loadmore>
 								</view>
 							</view>
-                        	<view v-else class="u-m-t-80">
-								<u-empty  class="u-skeleton-fillet" text="暂无储物空间" mode="list"></u-empty>
+                        	<view v-else class="u-flex flex-col u-col-center u-m-t-60">
+								<u-empty  class="u-skeleton-fillet" text="暂无储物空间" mode="data"></u-empty>
+								<u-button class="u-m-t-40 u-skeleton-fillet" type="primary" ripple="true" size="medium">
+									<navigator url="../../space-edit" hover-class="none">去添加</navigator>
+								</u-button>
 							</view>
                         </view>
                     </scroll-view>
@@ -100,9 +102,15 @@
     </view>
 </template>
 <script>
+import log from '../../../utils/log';
+import config from '../../../config.js';
+const globalData = getApp().globalData;
 export default {
     data() {
         return {
+			// 页面数据
+			phoneInfo: globalData.phoneInfo,
+
 			// 骨架屏
 			skeleton_loading: true,
 
@@ -140,6 +148,7 @@ export default {
     },
     onLoad() {
         // 骨架屏
+		
 		this.getOrderList(0);	
 
 		setTimeout(() => {
@@ -151,10 +160,12 @@ export default {
         /**
          * 页面内容相关数据
          */
+		// 获取页面数据
         getOrderList(i) {
             this.loadStatus.splice(this.current, 1, "loadmore");
         },
 
+		// 触底加载数据
         // reachBottom() {
         // 	// 此tab为空数据
         // 	if(this.current != 2) {
@@ -163,7 +174,12 @@ export default {
         // 			this.getOrderList(this.current);
         // 		}, 1200);
         // 	}
-        // },
+		// },
+		
+		// 
+		// addStorage() {
+			
+		// },
 
         // tabs通知swiper切换
         tabsChange(index) {
@@ -223,7 +239,19 @@ export default {
 	},
 	
     onShareAppMessage: function () {
-        // return custom share data when user share.
+		return {
+			title: config.shareTitle,
+			// path: '',
+			// imageUrl: ''
+		}
+	},
+
+	onShareTimeline: function () {
+		return {
+			title: config.shareTitle,
+			// query: '',
+			// imageUrl: ''
+		}
 	},
 	
     onPageScroll: function () {
@@ -235,9 +263,9 @@ export default {
 	},
 	
     onTabItemTap(item) {
-        console.log(item.index);
-        console.log(item.pagePath);
-        console.log(item.text);
+        // console.log(item.index);
+        // console.log(item.pagePath);
+        // console.log(item.text);
     },
 };
 </script>
@@ -249,9 +277,7 @@ export default {
 .wrap {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - var(--window-top) - 44px);
     width: 100%;
-    margin-top: calc(44px + 20px);
     .u-tabs-box {
         background-color: $theme-color;
         .grid-icon-box {
@@ -268,6 +294,10 @@ export default {
 				// 	width: 100%;
 				// 	height: 100%;
 				// }
+				/deep/ .u-btn--primary {
+					border-color: $theme-color;
+					background-color: $theme-color;
+				}
 			}
         }
     }

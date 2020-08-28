@@ -12,13 +12,16 @@
         <u-cell-group title="settings">
             <u-cell-item title="主题"></u-cell-item>
             <u-cell-item title="提示开关" arrow="false">
-				<u-switch slot="right-icon" v-model="remind_checked"></u-switch>
+				<u-switch slot="right-icon" v-model="remind_checked" size="40"></u-switch>
 			</u-cell-item>
         </u-cell-group>
     </view>
 </template>
 
 <script>
+import log from '../../../utils/log';
+import config from '../../../config.js';
+const globalData = getApp().globalData;
 export default {
     data() {
         return {

@@ -9,9 +9,9 @@ const log = require("./utils/log.js");
 export default {
     // 全局变量
     globalData: {
-        appid: config.appid,
-        isRelease: config.isRelease,
-        version: config.version,
+        // appid: config.appid,
+        // isRelease: config.isRelease,
+        // version: config.version,
     },
 
     onLaunch: function () {
