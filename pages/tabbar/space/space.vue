@@ -8,9 +8,12 @@
             back-icon-name="plus"
             height="44"
             :custom-back="showPopup"
+			:isShowSearch="false"
+			:searchThing="search"
             :background="{ backgroundColor: '#1ab16c' }"
             :border-bottom="false"
         ></u-navbar>
+
 
         <!-- 左侧弹层 -->
         <u-popup
@@ -212,6 +215,12 @@ export default {
         popupOpen() {},
         // 弹层关闭
         popupClose() {},
+		
+		// 跳转到搜索页面
+		search() {
+			console.log("1: " + 1);
+			// this.$u.route('/pages/tabbar/add/add');
+		},
     },
 
     onShow: function () {
