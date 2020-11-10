@@ -1,6 +1,6 @@
 <template>
 	<view class="content" :class="{'active':active}">
-		<image class="logo" :class="{'active':active}" src="../../../static/logo.png"  mode="aspectFit"></image>
+		<!-- <image class="logo" :class="{'active':active}" src="../../../static/logo.png"  mode="aspectFit"></image>
 		<view class="tabbar-box-wrap">
 			<view class="tabbar-box">
 				<view class="tabbar-box-item" @click="goToPage('/pages/tabbar-3-detial/tabbar-3-release/tabbar-3-release')">
@@ -16,7 +16,7 @@
 					<text class="explain">提问</text>
 				</view>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template> 
 
@@ -70,7 +70,6 @@ export default {
 		margin-top: -400upx;
 		width: 200upx;
 		height: 200upx;
-		// z-index: -1;
 		opacity: 0;
 		transition: opacity 0.3s;
 		&.active {

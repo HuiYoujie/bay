@@ -9,9 +9,9 @@ const log = require("./utils/log.js");
 export default {
     // 全局变量
     globalData: {
-        appid: config.appid,
-        isRelease: config.isRelease,
-        version: config.version,
+        // appid: config.appid,
+        // isRelease: config.isRelease,
+        // version: config.version,
     },
 
     onLaunch: function () {
@@ -134,4 +134,11 @@ export default {
 
 <style>
 /*每个页面公共css */
+.flex-col {
+    flex-direction: column;
+}   
+.safe-area {
+    padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+    padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+}
 </style>
