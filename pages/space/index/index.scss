@@ -1,0 +1,26 @@
+.u-popup-cont {
+	height: 100%;
+}
+.wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .u-tabs-box {
+        background-color: $theme-color;
+        .grid-icon-box {
+            width: 80upx;
+            height: 80upx;
+        }
+    }
+    .swiper-box {
+        .swiper-item {
+			height: 100%;
+			.page-box {
+				/deep/ .u-btn--primary {
+					border-color: $theme-color;
+					background-color: $theme-color;
+				}
+			}
+        }
+    }
+}

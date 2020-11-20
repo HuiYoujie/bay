@@ -37,9 +37,9 @@
 			}
 		},
 		{
-			"path": "pages/space/room-edit/room-edit",
+			"path": "pages/space/furniture/furniture",
 			"style": {
-				"navigationBarTitleText": "添加空间"
+				"navigationBarTitleText": "添加家具"
 			}
 		}
 	],
