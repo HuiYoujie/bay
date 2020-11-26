@@ -80,19 +80,16 @@ export default {
 			this.$u.post('/api/staff/saveInfoByStaffId', {
 				
 			}).then(res => {
-				// 
 				/**
 				 * 将vuex方法挂在到$u中
-				 * 由于web端也会更改状态，暂不能实时同步，所以先取消vuex方式，改为刷新接口
 				 */
-				// this.$u.vuex('vuex_stateIndex', Number(this.stateIndex));
-				this.$u.vuex('vuex_refresh_flag.userState', true)
-				let pages = getCurrentPages(); // 当前页面栈
-				let prevPage = pages[pages.length - 2]; // 上一页面
-				prevPage.onLoad()
+				// this.$u.vuex('vuex_refresh_flag.userState', true)
+				// let pages = getCurrentPages(); // 当前页面栈
+				// let prevPage = pages[pages.length - 2]; // 上一页面
+				// prevPage.onLoad()
 				uni.navigateBack()
 			}).catch(err => {
-				this.custom_status_show = false
+				
 			})
 		}
 	}

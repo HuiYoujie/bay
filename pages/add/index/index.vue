@@ -1,138 +1,79 @@
 <template>
-	<view class="content" :class="{'active':active}">
-		<!-- <image class="logo" :class="{'active':active}" src="../../../static/logo.png"  mode="aspectFit"></image>
-		<view class="tabbar-box-wrap">
-			<view class="tabbar-box">
-				<view class="tabbar-box-item" @click="goToPage('/pages/tabbar-3-detial/tabbar-3-release/tabbar-3-release')">
-					<image class="box-image" src="../../../static/img/release.png" mode="aspectFit"></image>
-					<text class="explain">发图文</text>
-				</view>
-				<view class="tabbar-box-item" @click="goToPage('/pages/tabbar-3-detial/tabbar-3-video/tabbar-3-video')">
-					<image class="box-image" src="../../../static/img/video.png" mode="aspectFit"></image>
-					<text class="explain">发视频</text>
-				</view>
-				<view class="tabbar-box-item" @click="goToPage('/pages/tabbar-3-detial/tabbar-3-qa/tabbar-3-qa')">
-					<image class="box-image" src="../../../static/img/qa.png" mode="aspectFit"></image>
-					<text class="explain">提问</text>
-				</view>
+	<view class="wrap thing">
+		<view class="u-p-l-40 u-p-r-40">
+			<!-- 表单数据 -->
+			<u-form ref="uForm" :model="form" error-type="['toast']" label-position="top" label-width="240rpx">
+				<u-form-item label="物品名称" prop="name" required>
+					<u-input v-model="form.name" placeholder="请输入家具名称" />
+				</u-form-item>
+				<u-form-item label="物品图片" prop="picUrl">
+					<u-upload
+						ref="uUpload" 
+						:action="action"
+						max-count="9"
+						width="190"
+						height="190"
+						:custom-btn="false" 
+						:source-type="['camera', 'album']"
+						:size-type="['compressed']"
+						:auto-upload="true"
+						:max-size="1 * 1024 * 1024"
+						:show-upload-list="showUploadList" 
+						@on-success="uploadSuccess"
+						@on-remove="removeImg"
+						@on-uploaded="onUploaded"
+					></u-upload>
+				</u-form-item>
+				<u-form-item label="购买日期" prop="PD">
+					<u-input v-model="form.PD" @click="showDatePicker('PD')" type="select" placeholder="请选择生产日期" />
+				</u-form-item>
+				<!-- <u-form-item label="保质期" prop="ED">
+					<u-input v-model="form.ED" @click="showMonthSelect()" type="select" placeholder="请选择保质期" />
+				</u-form-item> -->
+				<u-form-item label="过期日期" prop="Exp">
+					<u-input v-model="form.Exp" @click="showDatePicker('Exp')" type="select" placeholder="请选择截止日期" />
+				</u-form-item>
+				<u-form-item label="提醒开关" prop="remindFlag" label-position="left">
+					<u-switch v-model="form.remindFlag" @change="remindFlagChange" active-color="#19be6b" active-value="1" inactive-value="0" :vibrate-short="true" slot="right"></u-switch>
+				</u-form-item>
+				<!-- <u-form-item label="过期提醒时间" prop="Exp_remind">
+					<u-input v-model="form.Exp_remind" @click="month_select_show = true" type="select" placeholder="请选择保质期" />
+				</u-form-item> -->
+				<u-form-item label="开始提醒时间" prop="Exp_remind">
+					<u-input v-model="form.Exp_remind" @click="showDatePicker('Exp_remind')" type="select" placeholder="请选择保质期" />
+				</u-form-item>
+				<u-form-item label="备注" prop="description">
+					<u-input v-model="form.description" type="textarea" placeholder="请输入备注" maxlength="100"></u-input>
+				</u-form-item>
+			</u-form>
+			
+			<!-- 按钮 -->
+			<view class="u-flex u-row-right u-m-t-60 u-m-b-60">
+				<u-button class="u-m-r-30" @click="cancel" type="default" size="medium">取消</u-button>
+				<u-button @click="submit" type="primary" size="medium">提交</u-button>
 			</view>
-		</view> -->
+		</view>
+		
+		<!-- 日期 -->
+		<u-picker 
+			mode="time" 
+			v-model="date_picker_show"
+			start-year="2019"
+			:default-time="defaultDate"
+		    cancel-text="清除日期"
+			@confirm="dateChange"
+		    @cancel="dateClear"
+		></u-picker>
+		
+		<!-- 月数选择 -->
+		<u-select v-model="month_select_show" mode="single-column" :list="monthList" @confirm="confirm"></u-select>
+		
+        <u-toast ref="uToast"></u-toast>
 	</view>
-</template> 
+</template>
 
-<script>
-export default {
-	data() {
-		return {
-			active: false
-		};
-	},
-	onLoad() {},
-	onShow() {
-		// setTimeout(() => {
-		this.active = true;
-		// }, 500);
-	},
-	onHide() {
-		this.active = false;
-	},
-	methods: {
-		goToPage(url) {
-			if (!url) return;
-			uni.navigateTo({
-				url
-			});
-		}
-	}
-};
-</script>
 
+<script src="./index.js"></script>
 <style lang="scss" scoped>
-.content {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	/* #ifdef H5 */
-	height: calc(100vh - var(--window-bottom) - var(--window-top));
-	/* #endif */
-	/* #ifndef H5 */
-	height: 100vh;
-	/* #endif */
-	transition: opacity 0.3s;
-	background: #999;
-	opacity: 0;
-	&.active {
-		opacity: 1;
-	}
-	.logo {
-		position: relative;
-		margin-top: -400upx;
-		width: 200upx;
-		height: 200upx;
-		opacity: 0;
-		transition: opacity 0.3s;
-		&.active {
-			opacity: 1;
-		}
-	}
-}
-.tabbar-box-wrap {
-	position: absolute;
-	width: 100%;
-	padding: 50upx;
-	box-sizing: border-box;
-	bottom: 0;
-	left: 0;
-	.tabbar-box {
-		position: relative;
-		display: flex;
-		width: 100%;
-		background: #fff;
-		border-radius: 20upx;
-		padding: 15upx 20upx;
-		box-sizing: border-box;
-		z-index: 2;
-		box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1);
-		&:after {
-			content: '';
-			position: absolute;
-			bottom: -16upx;
-			left: 0;
-			right: 0;
-			margin: auto;
-			width: 50upx;
-			height: 50upx;
-			transform: rotate(45deg);
-			background: #fff;
-			z-index: 1;
-			box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.1);
-			border-radius: 2px;
-		}
-		&:before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: #ffffff;
-			border-radius: 20upx;
-			z-index: 2;
-		}
-		.tabbar-box-item {
-			// position: relative;
-			width: 100%;
-			z-index: 3;
-			margin: 10upx;
-			color: $uni-color-subtitle;
-			text-align: center;
-			font-size: $uni-font-size-base;
-			.box-image {
-				width: 100%;
-				height: $uni-img-size-lg;
-			}
-		}
-	}
-}
+@import './index.scss';
 </style>

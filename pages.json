@@ -21,7 +21,7 @@
 		{
 			"path": "pages/add/index/index",
 			"style": {
-				"navigationBarTitleText": "新增"
+				"navigationBarTitleText": "新增物品"
 			}
 		},
 		{

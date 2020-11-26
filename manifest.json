@@ -69,6 +69,7 @@
         },
         "uniStatistics" : {
             "enable" : true
-        }
+        },
+		"cloudfunctionRoot": "./static/cloudfunctions/"
     }
 }

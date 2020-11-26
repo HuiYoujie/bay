@@ -44,6 +44,8 @@ export default {
         };
     },
     onLoad() {
+		// 登录
+		this.login()
         // 骨架屏
 		this.getOrderList(0);	
 
@@ -60,6 +62,15 @@ export default {
 	},
 	
     methods: {
+		// 登录
+		login() {
+			wx.cloud.callFunction({
+			  name: 'login',
+			}).then(res => {
+			  console.log(res) 
+			}).catch(console.error)
+		},
+		
         /**
          * 页面内容相关数据
          */
