@@ -75,7 +75,7 @@
 				"pagePath": "pages/add/index/index",
 				"iconPath": "static/img/tabbar/add.png",
 				"selectedIconPath": "static/img/tabbar/addactive.png",
-				"text": "发布"
+				"text": "新增物品"
 			},
 			//#endif
 			//#ifndef MP-WEIXIN

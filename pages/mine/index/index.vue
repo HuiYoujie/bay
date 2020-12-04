@@ -11,7 +11,7 @@
 		<!-- 设置 -->
         <u-cell-group title="settings">
             <u-cell-item title="主题"></u-cell-item>
-            <u-cell-item title="提示开关" arrow="false">
+            <u-cell-item title="提示开关" :arrow="false">
 				<u-switch slot="right-icon" v-model="remind_checked" size="40"></u-switch>
 			</u-cell-item>
         </u-cell-group>

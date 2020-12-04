@@ -19,8 +19,12 @@ export default {
 				remindFlag: true,
 				// 过期前几个月提醒
 				Exp_remind: '',
-				description: ''
+				description: '',
+				// 星级
+				rate: 0
 			},
+			colors: ['#dd524d', '#ff9500', '#ffb409', '#ffc454', '#4cd964'],
+			// icons: ['thumb-down-fill', 'thumb-down-fill', 'thumb-up-fill', 'thumb-up-fill']
 			// 表单校验规则
 			rules: {
 				name: [

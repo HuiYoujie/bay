@@ -45,6 +45,9 @@
 				<u-form-item label="备注" prop="description">
 					<u-input v-model="form.description" type="textarea" placeholder="请输入备注" maxlength="100"></u-input>
 				</u-form-item>
+				<u-form-item label="星级" prop="rate">
+					<u-rate v-model="form.rate" :colors="colors" :icons="icons" inactive-icon="thumb-up"></u-rate>
+				</u-form-item>
 			</u-form>
 			
 			<!-- 按钮 -->
