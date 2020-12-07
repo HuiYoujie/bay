@@ -6,9 +6,12 @@ export default {
 	data() {
 		return {
 			form: {
+				// 名称
 				name: '',
 				// 物品图片
 				picUrl: '',
+				// 星级
+				rate: 0,
 				// 生产日期
 				PD: '',
 				// 保质期
@@ -20,11 +23,7 @@ export default {
 				// 过期前几个月提醒
 				Exp_remind: '',
 				description: '',
-				// 星级
-				rate: 0
 			},
-			colors: ['#dd524d', '#ff9500', '#ffb409', '#ffc454', '#4cd964'],
-			// icons: ['thumb-down-fill', 'thumb-down-fill', 'thumb-up-fill', 'thumb-up-fill']
 			// 表单校验规则
 			rules: {
 				name: [
@@ -43,6 +42,8 @@ export default {
 					}
 				]
 			},
+			colors: ['#dd524d', '#ff9500', '#ffb409', '#ffc454', '#4cd964'],
+			// icons: ['thumb-down-fill', 'thumb-down-fill', 'thumb-up-fill', 'thumb-up-fill']
 			// 日期选择开关
 			date_picker_show: false,
 			dateType: '',
@@ -179,20 +180,20 @@ export default {
 									title: '正在提交',
 									mask: true
 								})
-								this.$u.post('/api/staff/saveInfoByStaffId', {
+								// this.$u.post('/api/staff/saveInfoByStaffId', {
 									
-								}).then(res => {
-									/**
-									 * 将vuex方法挂在到$u中
-									 */
-									// this.$u.vuex('vuex_refresh_flag.userState', true)
-									// let pages = getCurrentPages(); // 当前页面栈
-									// let prevPage = pages[pages.length - 2]; // 上一页面
-									// prevPage.onLoad()
-									uni.navigateBack()
-								}).catch(err => {
+								// }).then(res => {
+								// 	/**
+								// 	 * 将vuex方法挂在到$u中
+								// 	 */
+								// 	// this.$u.vuex('vuex_refresh_flag.userState', true)
+								// 	// let pages = getCurrentPages(); // 当前页面栈
+								// 	// let prevPage = pages[pages.length - 2]; // 上一页面
+								// 	// prevPage.onLoad()
+								// 	uni.navigateBack()
+								// }).catch(err => {
 									
-								})
+								// })
 							} else if (res.cancel) {
 				
 							}
