@@ -1,23 +1,10 @@
 <template>
-    <view class="content">页面 - 4</view>
+    <canvas type="2d" id="canvas" canvas-id='sign' @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" @touchcancel="touchcancel" @longtap="" @error="touchcancel"></canvas>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            title: "Hello",
-        };
-    },
-    onLoad() {},
-    methods: {},
-};
-</script>
+
+<script src="./index.js"></script>
 
 <style lang="scss" scoped>
-.content {
-    text-align: center;
-    height: 400upx;
-    margin-top: 200upx;
-}
+@import './index.scss';
 </style>

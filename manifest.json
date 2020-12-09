@@ -6,43 +6,102 @@
     "versionCode" : "100",
     "transformPx" : false,
     "app-plus" : {
-		"usingComponents": true,
-		"compilerVersion": 3,
+        "usingComponents" : true,
+        "compilerVersion" : 3,
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : true,
+            "delay" : 0
+        },
         /* 5+App特有相关 */
-        "modules" : {},
+        "modules" : {
+            "Push" : {},
+            "LivePusher" : {},
+            "VideoPlayer" : {},
+            "OAuth" : {}
+        },
         /* 模块配置 */
         "distribute" : {
             /* 应用发布信息 */
-            "android" : {
-                /* android打包配置 */
-                "permissions" : [
-                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
-                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
-                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
-                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
-                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
-                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
-                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
-                    "<uses-feature android:name=\"android.hardware.camera\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+            "ios" : {
+                "appid" : "iOS应用标识，苹果开发网站申请的appid，如io.dcloud.uniapp", // ?
+                "mobileprovision" : "iOS应用打包配置文件", // ?
+                "password" : "iOS应用打包个人证书导入密码", // ?
+                "p12" : "iOS应用打包个人证书，打包配置文件关联的个人证书", // ?
+                "devices" : "iphone",
+                "urltypes" : [
+                    {
+                        "urlidentifier" : "com.xxx.test", // ?
+                        "urlschemes" : [
+                            "https" // 必选，程序所支持的自定义协议名称
+                        ]
+                    }
+                ],
+                // "frameworks": ["使用native.js调用API要引用的库文件名称，如CoreLocation.framework", "QuartzCore.framework"],
+                "idfa" : false,
+                "plistcmds" : [
+                    "Set :权限 使用权限的原因", // ?
+                    "Set :NSCameraUsageDescription 说明使用用户相机的原因" // ?
                 ]
             },
-            "ios" : {},
             /* ios打包配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "oauth" : {
+                    "apple" : {}
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "",
+                        "UniversalLinks" : ""
+                    }
+                },
+                "push" : {
+                    "unipush" : {}
+                }
+            },
+            // HBuilderX->manifest.json->图标配置
+            "icons" : {
+                "ios" : {
+                    "appstore" : "必选, 1024x1024, 提交app sotre使用的图标",
+                    "iphone" : {
+                        "app@2x" : "可选，120x120，iOS7-11程序图标（iPhone4S/5/6/7/8）",
+                        "app@3x" : "可选，180x180，iOS7-11程序图标（iPhone6plus/7plus/8plus/X）",
+                        "spotlight@2x" : "可选，80x80，iOS7-11 Spotlight搜索图标（iPhone5/6/7/8）",
+                        "spotlight@3x" : "可选，120x120，iOS7-11 Spotlight搜索图标（iPhone6plus/7plus/8plus/X）",
+                        "settings@2x" : "可选，58x58，iOS5-11 Settings设置图标（iPhone5/6/7/8）",
+                        "settings@3x" : "可选，87x87，iOS5-11 Settings设置图标（iPhone6plus/7plus/8plus/X）",
+                        "notification@2x" : "可选，40x40，iOS7-11 通知栏图标（iPhone5/6/7/8）",
+                        "notification@3x" : "可选，60x60，iOS7-11 通知栏图标（iPhone6plus/7plus/8plus/X）"
+                    }
+                }
+            },
+            "android" : {
+                "permissions" : [
+                    "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>"
+                ]
+            }
+        },
+        "safearea" : {
+            //安全区域配置，仅iOS平台生效  
+            "background" : "#CCCCCC", //安全区域外的背景颜色，默认值为"#FFFFFF"  
+            "bottom" : {
+                // 底部安全区域配置  
+                "offset" : "none|auto" // 底部安全区域偏移，"none"表示不空出安全区域，"auto"自动计算空出安全区域，默认值为"none"  
+            },
+            "left" : {
+                //左侧安全区域配置（横屏显示时有效）  
+                "offset" : "none|auto"
+            },
+            "right" : {
+                //右侧安全区域配置（横屏显示时有效）  
+                "offset" : "none|auto"
+            }
         }
     },
     /* SDK配置 */
@@ -52,10 +111,8 @@
         /* 小程序特有相关 */
         "usingComponents" : true,
         "appid" : "wxf2409c07e5d4591a",
-		"projectname": "bay",
-        "packOptions" : {
-			
-        },
+        "projectname" : "bay",
+        "packOptions" : {},
         "setting" : {
             "urlCheck" : true,
             "postcss" : true,
@@ -70,6 +127,8 @@
         "uniStatistics" : {
             "enable" : true
         },
-		"cloudfunctionRoot": "./static/cloudfunctions/"
+        "cloudfunctionRoot" : "./static/cloudfunctions/"
     }
 }
+// HBuilderX->manifest.json->图标配置
+
