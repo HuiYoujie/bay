@@ -25,7 +25,9 @@ export default {
 	},
 
 	onReady() {
-		// this.ctx = wx.createCanvasContext('sign', this)
+		this.ctx = wx.createCanvasContext('sign', this)
+		this.drawGrid()
+		return
 		
 		const query = wx.createSelectorQuery()
 		query.select('#canvas').fields({ 
