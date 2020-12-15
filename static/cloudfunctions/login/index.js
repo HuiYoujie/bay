@@ -2,7 +2,7 @@
 // 部署：在 cloud-functions/login 文件夹右击选择 “上传并部署”
 
 const cloud = require('wx-server-sdk')
-// const defaultRoomList = require('./roomList.js')
+const { defaultRoomList } = require('./roomList.js')
 
 // 初始化 cloud
 cloud.init({
@@ -22,7 +22,7 @@ exports.main = async (event, context) => {
 	// console.log('context', context)
 
 	// 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
-	// const wxContext = cloud.getWXContext()
+	const wxContext = cloud.getWXContext()
 	const {
 		OPENID: _openid,
 		APPID: appid,
@@ -31,127 +31,146 @@ exports.main = async (event, context) => {
 	} = cloud.getWXContext()
 	
 	/**
+	 * 示例 请求方式
+	 */
+	// // 请求方式-1
+	// db.collection('user').doc(_openid).get({
+	//   success: function(res) {}
+	// })
+	// // 请求方式-2
+	// db.collection('user').doc(_openid).get().then(res => {})
+	// // 请求方式-3
+	// const sth = db.collection('user').doc(_openid).get()
+	
+	
+	/**
 	 * 获取用户信息
 	 */
-	// 正常请求方式
-	// db.collection('user').where({
-	// 	_openid
-	// }).get().then(res => {
-	// 	// userInfo = res.data[0]
-	// 	// console.log('用户信息', res.data[0]);
-	// 	if (resp.data.length <= 0) {
-			
-	// 	} else {
-			
-	// 	}
-	// })
-	// Promise方式
 	const user = await db.collection('user').where({
 		_openid
 	}).get()
-	// 查询user表数据条数
-	const userNumber = await db.collection('user').count()
-	console.log(userNumber)
-	// if (user.data.length <= 0) {
-	// 	// 查询user表数据条数
-	// 	const userNumber = await db.collection('user').count()
-	// 	let newUser = {
-	// 		_openid,
-	// 		userId: Number(userNumber) + 1,
-	// 		status: 0,
-	// 		phone: '',
-	// 		gender: null,
-	// 		nickName: '',
-	// 		avatar: '',
-	// 		country: '',
-	// 		province: '',
-	// 		city: '',
-	// 		createdTime: db.serverDate(),
-	// 		updateTime: db.serverDate()
-	// 	}
-	// 	// 添加新的用户
-	// 	db.collection('user').add({
-	// 		data: newUser
-	// 	}).then(res => {
-	// 		console.log(res)
-	// 	}).catch(err => {
-	// 		console.log(err)
-	// 	})
-	// } else {
-	// 	console.log('获取到当前的登录用户', resp.data[0])
-	// 	let user = resp.data[0]
-	// 	user.updateTime = db.serverDate()
-	// 	// let _id = user._id
-	// 	// delete user._id
-	// 	// 更新用户信息
-	// 	db.collection('user').doc(_id).update({
-	// 		data: user
-	// 	}).then(resp => {
-	// 		console.log(resp)
-	// 	}).catch(err => {
-	// 		console.log(err)
-	// 	})
-	// }
+	if(user.data.length > 0) {
+		let { userId } = user.data[0]
+		// 更新用户信息
+		db.collection('user').where({ 
+			userId 
+		}).update({
+			data: {
+				updateTime: db.serverDate()
+			}
+		}).then(resp => {
+			console.info(resp)
+		}).catch(err => {
+			console.error(err)
+		})
+		
+		// 查询家庭 和 房间 显示默认家庭
+		
+		return {
+			openid: _openid,
+			appid,
+			unionid,
+			env,
+			userInfo: {
+				...user.data[0]
+			},
+			// event
+		}
+	} else {
+		// 没有数据 新建用户 新建家庭 新建房间
 	
-	// // 查询family表数据条数
-	// const familyNumber = await db.collection('family').count()
-	// // 登录后，自动创建默认家庭，允许修改名称，但不可以删除
-	// db.collection('family').where({
-	// 	_openid
-	// }).get().then(resp => {
-	// 	// 不存在默认家庭，创新新的默认家庭
-	// 	if (resp.data.length <= 0) {
-	// 		let family = {
-	// 			_openid,
-	// 			user: wxContext.OPENID,
-	// 			userId: Number(userNumber) + 1,
-	// 			familyId: familyNumber + 1,
-	// 			name: '默认家庭',
-	// 			status: 0,
-	// 			isDefault: true,
-	// 			isAuto: true,
-	// 			createdTime: new Date(),
-	// 			updateTime: new Date(),
-	// 		}
-
-	// 		// 新建家庭 默认一个
-	// 		db.collection('family').add({
-	// 			data: family
-	// 		}).then(resp => {
-	// 			console.log(resp)
-	// 		}).catch(err => {
-	// 			console.log(err)
-	// 		})
-			
-	// 		// 新建房间 默认8个 => 主卧 次卧 客厅 厨房 餐厅 卫生间 玄关 阳台
-	// 		for(data of defaultRoomList) {
-	// 			// 查询room表数据条数
-	// 			const roomNumber = await db.collection('room').count()
-	// 			data.roomId = roomNumber + 1
-	// 			data._openid,
-	// 			data.userId: Number(userNumber) + 1,
-	// 			data.familyId: Number(familyNumber) + 1,
-	// 			data.roomId: roomNumber + 1,
-	// 			db.collection('room').add({
-	// 				data
-	// 			}).then(resp => {
-	// 				console.log(resp)
-	// 			}).catch(err => {
-	// 				console.log(err)
-	// 			})
-	// 		}
-	// 	}
-	// })
-	
-	return {
-		openid: _openid,
-		appid,
-		unionid,
-		env,
-		userInfo: {
-			...user.data[0]
-		},
-		// event
+		// 查询user表数据条数
+		const { total: userCount } = await db.collection('user').count()
+		// console.log('user表数据条数', userCount)
+		let newUser = {
+			_openid,
+			userId: userCount + 1,
+			status: 0,
+			phone: '',
+			gender: 1,
+			nickName: '',
+			avatar: '',
+			country: '',
+			province: '',
+			city: '',
+			createdTime: db.serverDate(),
+			updateTime: db.serverDate()
+		}
+		// 添加新的用户
+		await db.collection('user').add({
+			data: newUser
+		}).then(resp => {
+			console.info(resp)
+		}).catch(err => {
+			console.error(err)
+		})
+		
+		// 查询family表数据条数
+		const { total: familyCount } = await db.collection('family').count()
+		// console.log('family表数据条数', familyCount)
+		
+		let family = {
+			_openid,
+			userId: userCount + 1,
+			familyId: familyCount + 1,
+			name: '我的家',
+			status: 0,
+			isDefault: true,
+			sort: 1,
+			isAuto: true,
+			createdTime: new Date(),
+			updateTime: new Date(),
+		}
+				
+		// 新建家庭 默认一个
+		await db.collection('family').add({
+			data: family
+		}).then(resp => {
+			console.info(resp)
+		}).catch(err => {
+			console.error(err)
+		})
+		
+		// 新建房间 默认8个 => 主卧 次卧 客厅 厨房 餐厅 卫生间 玄关 阳台
+		for(data of defaultRoomList) {
+			// 查询room表数据条数
+			const { total: roomCount } = await db.collection('room').count()
+			// console.log('room表数据条数', roomCount)
+			data._openid,
+			data.userId = userCount + 1,
+			data.familyId = familyCount + 1,
+			data.roomId = roomCount + 1
+			await db.collection('room').add({
+				data
+			}).then(resp => {
+				console.info(resp)
+			}).catch(err => {
+				console.error(err)
+			})
+		}
+		
+		return {
+			openid: _openid,
+			appid,
+			unionid,
+			env,
+			// 新建的数据
+			userInfo: newUser,
+			familyInfo: family,
+			roomInfo: defaultRoomList
+			// event
+		}
 	}
+	
+	// return {
+	// 	openid: _openid,
+	// 	appid,
+	// 	unionid,
+	// 	env,
+	// 	userInfo: {
+	// 		...user.data[0]
+	// 	},
+	// 	// event
+	// }
 }
 
