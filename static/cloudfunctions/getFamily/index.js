@@ -9,8 +9,29 @@ cloud.init({
 const db = cloud.database()
 
 exports.main = async (event, context) => {
-  // event.userInfo 是已废弃的保留字段，在此不做展示
-  // 获取 OPENID 等微信上下文请使用 cloud.getWXContext()
-  delete event.userInfo
-  return event
+	let {
+		userId,
+	} = event.data
+	
+	let familyInfo = await db.collection('family').where({
+		userId
+	}).get()
+	
+	return {
+		// familyInfo: familyInfo.data
+		familyInfo
+	}
+	
+	await db.collection('family').where({
+		userId
+	}).then(resp => {
+		console.info(resp)
+		// return {
+		// 	familyInfo: resp
+		// }
+	}).catch(err => {
+		console.error(err)
+	})
+	
+	
 }

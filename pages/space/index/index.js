@@ -5,53 +5,33 @@ const globalData = getApp().globalData;
 export default {
     data() {
         return {
-			// 页面数据
+			// 设备相关数据
 			phoneInfo: globalData.phoneInfo,
 
 			// 骨架屏
 			skeleton_loading: true,
 
             // content页面相关数据
-            tabsList: [
-                {
-                    area_name: "主卧",
-                    sort: 0,
-                },
-                {
-                    area_name: "次卧",
-                    sort: 0,
-                },
-                {
-                    area_name: "玄关",
-                    sort: 0,
-                },
-                {
-                    area_name: "客厅",
-                    sort: 0,
-                },
-                {
-                    area_name: "厨房",
-                    sort: 0,
-                },
-            ],
+			familyInfo: [], // 家庭信息
+            roomInfo: [],	// 房间信息
+			furnitureInfo: [], // 家具信息
             current: 0, // tabs组件的current值，表示当前活动的tab选项
             swiperCurrent: 0, // swiper组件的current值，表示当前那个swiper-item是活动的
             dx: 0,
-            loadStatus: ["loadmore", "loadmore", "loadmore", "loadmore"],
+            loadStatus: [],
 
             // 顶部-左侧-底部相关数据
             popup_show: false,
         };
     },
-    onLoad() {
+    async onLoad() {
 		// 登录
-		this.login()
+		await this.login()
+		await this.getFurnitureInfo(this.current);	
+		
+		
         // 骨架屏
-		this.getOrderList(0);	
-
-		setTimeout(() => {
-			this.skeleton_loading = false;
-		}, 2000)
+		
 		
 		// uToast
 		// this.$refs.uToast.show({
@@ -64,30 +44,81 @@ export default {
     methods: {
 		// 登录
 		login() {
-			wx.cloud.callFunction({
-			  name: 'login',
-			}).then(res => {
-			  console.log(res) 
-			}).catch(console.error)
+			return new Promise((resolve, reject) => {
+				wx.cloud.callFunction({
+					name: 'login',
+				}).then(res => {
+					let {
+						openid,
+						appid,
+						unionid,
+						env,
+						// 解构
+						userInfo: {
+							userId,
+							avatar,
+							gender,
+							status
+						},
+						familyInfo,
+						roomInfo
+					} = res.result
+					// console.log(res) 
+					// console.log(userId, avatar, gender, status);
+					
+					this.familyInfo = familyInfo
+					this.roomInfo = roomInfo
+					
+					let loadStatus = new Array(roomInfo.length)
+					this.loadStatus = loadStatus.fill('loadmore')
+					
+					// 隐藏骨架屏
+					this.skeleton_loading = false;
+					
+					/**
+					 * 将vuex方法挂在到$u中
+					 */
+					this.$u.vuex('vuex_userId', userId)
+					this.$u.vuex('openid', openid)
+					
+					resolve()
+				}).catch(console.error)
+			})
 		},
 		
         /**
          * 页面内容相关数据
          */
 		// 获取页面数据
-        getOrderList(i) {
-            this.loadStatus.splice(this.current, 1, "loadmore");
+        getFurnitureInfo(index) {
+			return new Promise((resolve, reject) => {
+				this.loadStatus.splice(index, 1, "loading");
+				wx.cloud.callFunction({
+					name: 'getFurniture',
+					data: {
+						roomId: this.roomInfo[index].roomId || ''
+					}
+				})
+				.then(res => {
+					this.loadStatus.splice(index, 1, "nomore");
+					console.log(res);
+					this.furnitureInfo = res.result.furnitureInfo
+				})
+				.catch(err => {
+					console.error(err)
+				})
+			})
         },
 
 		// 触底加载数据
         reachBottom() {
         	// 此tab为空数据
-        	if(this.current != 2) {
-        		this.loadStatus.splice(this.current,1,"loading")
-        		setTimeout(() => {
-        			this.getOrderList(this.current);
-        		}, 1200);
-        	}
+        	// if(this.current != 2) {
+        	// 	this.loadStatus.splice(this.current,1,"loading")
+        	// 	setTimeout(() => {
+        	// 		this.getFurnitureInfo(this.current);
+        	// 	}, 1200);
+        	// }
 		},
 		
 		// 

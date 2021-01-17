@@ -51,6 +51,27 @@ exports.main = async (event, context) => {
 	}).get()
 	if(user.data.length > 0) {
 		let { userId } = user.data[0]
+		console.log(1)
+		// 获取用户家庭信息
+		// let familyInfo = await cloud.callFunction({
+		//     name: 'getFamily',
+		//     data: {
+		//       userId
+		//     }
+		// })
+		let familyInfo = await db.collection('family').where({
+			userId
+		}).get()
+		// console.log(familyInfo);
+		
+		// 获取默认显示的家庭ID
+		let familyId = familyInfo.data[familyInfo.data.findIndex(v => v.isDefault === true)].familyId
+		
+		// 获取用户房间信息
+		let roomInfo = await db.collection('room').where({
+			familyId
+		}).get()
+		
 		// 更新用户信息
 		db.collection('user').where({ 
 			userId 
@@ -74,7 +95,8 @@ exports.main = async (event, context) => {
 			userInfo: {
 				...user.data[0]
 			},
-			// event
+			familyInfo: familyInfo.data || {},
+			roomInfo: roomInfo.data || defaultRoomList
 		}
 	} else {
 		// 没有数据 新建用户 新建家庭 新建房间
@@ -109,14 +131,13 @@ exports.main = async (event, context) => {
 		const { total: familyCount } = await db.collection('family').count()
 		// console.log('family表数据条数', familyCount)
 		
+		// 家庭以及房间排序 ！！！
 		let family = {
-			_openid,
 			userId: userCount + 1,
 			familyId: familyCount + 1,
 			name: '我的家',
 			status: 0,
 			isDefault: true,
-			sort: 1,
 			isAuto: true,
 			createdTime: new Date(),
 			updateTime: new Date(),
@@ -136,9 +157,8 @@ exports.main = async (event, context) => {
 			// 查询room表数据条数
 			const { total: roomCount } = await db.collection('room').count()
 			// console.log('room表数据条数', roomCount)
-			data._openid,
-			data.userId = userCount + 1,
-			data.familyId = familyCount + 1,
+			data.userId = userCount + 1
+			data.familyId = familyCount + 1
 			data.roomId = roomCount + 1
 			await db.collection('room').add({
 				data
@@ -158,19 +178,26 @@ exports.main = async (event, context) => {
 			userInfo: newUser,
 			familyInfo: family,
 			roomInfo: defaultRoomList
-			// event
 		}
 	}
 	
+	// 默认返回
+	// const wxContext = cloud.getWXContext()
 	// return {
-	// 	openid: _openid,
-	// 	appid,
-	// 	unionid,
-	// 	env,
-	// 	userInfo: {
-	// 		...user.data[0]
-	// 	},
-	// 	// event
+	//   event,
+	//   openid: wxContext.OPENID,
+	//   appid: wxContext.APPID,
+	//   unionid: wxContext.UNIONID,
 	// }
 }
 
+// 云函数中调用其他云函数
+// exports.main = async (event, context) => {
+//   return await cloud.callFunction({
+//     name: 'sum',
+//     data: {
+//       x: 1,
+//       y: 2,
+//     }
+//   })
+// }

@@ -50,7 +50,8 @@
                 <u-tabs-swiper
                     ref="uTabs"
                     class="u-flex-1 u-skeleton-fillet"
-                    :list="tabsList"
+					style="width: 670rpx;"
+                    :list="roomInfo"
                     name="area_name"
                     :current="current"
                     @change="tabsChange"
@@ -72,19 +73,19 @@
                 @transition="transition"
                 @animationfinish="animationfinish"
             >
-                <swiper-item class="swiper-item" v-for="(item, index) in tabsList" :key="index">
+                <swiper-item class="swiper-item" v-for="(item, index) in roomInfo" :key="index">
                     <scroll-view
                         scroll-y
                         style="height: 100%;width: 100%;"
                         @scrolltolower="reachBottom"
                     >
                         <view class="page-box">
-                            <view v-if="tabsList.length > 10" class="u-flex flex-col u-col-top u-skeleton-fillet container">
+                            <view v-if="furnitureInfo.length > 0" class="u-flex flex-col u-col-top u-skeleton-fillet container">
 								<block v-for="(item, index) in tabsList" :key="index">
 									<text class="u-skeleton-fillet">{{item.area_name}}</text>
 								</block>
 								<view class="u-m-t-40">
-									<u-loadmore class="u-skeleton-fillet" :status="loadStatus[0]" bgcolor="#f2f2f2"></u-loadmore>
+									<u-loadmore class="u-skeleton-fillet" :status="loadStatus[index]" bgcolor="#f2f2f2"></u-loadmore>
 								</view>
 							</view>
                         	<view v-else class="u-flex flex-col u-col-center u-p-t-60">

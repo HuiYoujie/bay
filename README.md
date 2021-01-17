@@ -12,6 +12,8 @@
 - 如果之前是HBuilderX工程，则把HBuilderX工程内的文件（除 unpackage、node_modules 目录）拷贝至 vue-cli 工程的 src 目录。 在 vue-cli 工程内重新安装 npm 依赖（如果之前使用了 npm 依赖的话）
 - cli创建项目时若选择hello uni-app模板，可看到其中已经自带部分测试例。
 
+## 云开发 uni-app每次编译会出问题 
+- cnpm install --save wx-server-sdk@latest
 
 ## sdk
 # @vant

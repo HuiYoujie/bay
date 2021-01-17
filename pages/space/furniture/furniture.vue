@@ -6,21 +6,21 @@
 				<u-form-item label="家具名称" prop="name" :required="true">
 					<u-input v-model="form.name" input-align="right" placeholder="请输入家具名称" />
 				</u-form-item>
-				<u-form-item label="自定义家具开关" prop="customPicFlag">
+				<!-- <u-form-item label="自定义家具开关" prop="customPicFlag">
 					<u-switch v-model="form.customPicFlag" @change="customPicFlagChange" :disabled="false" active-color="#19be6b" active-value="1" inactive-value="0" :vibrate-short="true" slot="right"></u-switch>
-				</u-form-item>
+				</u-form-item> -->
 				<u-form-item label="请上传家具图片" prop="picUrl" :required="true">
-					<u-upload
-						slot="right"
+					<u-upload 
+						slot="right" 
 						ref="uUpload" 
 						:action="action"
-						max-count="9"
+						max-count="1"
 						width="190"
 						height="190"
 						:custom-btn="false" 
 						:source-type="['camera', 'album']"
 						:size-type="['compressed']"
-						:auto-upload="true"
+						:auto-upload="false"
 						:max-size="1 * 1024 * 1024"
 						:show-upload-list="showUploadList" 
 						@on-success="uploadSuccess"

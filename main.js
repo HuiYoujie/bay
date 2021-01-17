@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import store from './store'
+let vuexStore = require("@/store/$u.mixin.js");
+Vue.mixin(vuexStore);
 import App from './App'
 import uView from "uview-ui";
 // import moment from 'moment';

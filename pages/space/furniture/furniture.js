@@ -9,7 +9,10 @@ export default {
 				name: '',
 				customPicFlag: true,
 				picUrl: '',
+				action: '',
 			},
+			fileID: '',
+			showUploadList: true
 		};
 	},
 
@@ -45,21 +48,19 @@ export default {
 
 		// 上传成功
 		uploadSuccess(data, index, lists, name) {
-			console.log('上传图片结果', data)
+			console.log('上传图片结果', lists)
+			this.form.picUrl = data
 		},
 
 		// 移除图片
 		removeImg(index, lists, name) {
-			let picList = []
-			lists.map(v => {
-				picList.push(v.response.url)
-			})
-			this.picList = picList
+			
 		},
 
 		// 上传完成
 		onUploaded(index, lists, name) {
 			// console.log(index, lists, name)
+			
 		},
 		
 		// 取消返回
@@ -69,27 +70,26 @@ export default {
 		
 		// 提交状态和个性签名
 		submit() {
-			/**
-			 * 获取在线状态相关数据
-			 * @param staffId - 员工Id *
-			 * @param code - 在线状态 根据this.stateList
-			 * @param autoFlag - 是否开启自动回复
-			 * @param autoReplay - 自动回复内容
-			 */
-			this.$u.post('/api/staff/saveInfoByStaffId', {
-				
-			}).then(res => {
-				/**
-				 * 将vuex方法挂在到$u中
-				 */
-				// this.$u.vuex('vuex_refresh_flag.userState', true)
-				// let pages = getCurrentPages(); // 当前页面栈
-				// let prevPage = pages[pages.length - 2]; // 上一页面
-				// prevPage.onLoad()
-				uni.navigateBack()
-			}).catch(err => {
-				
+			// 检查数据
+			this.$refs.uUpload.upload();
+			
+			if(!this.form.picUrl) return
+			uni.showToast({
+				title: '图片不能为空'
 			})
+			wx.cloud.callFunction({
+				name: 'furniture',
+				data: {
+					userId: this.userId,
+					furnitureName: this.form.name,
+					customPicFlag: this.form.customPicFlag,
+					picUrl: this.form.picUrl,
+				},
+			}).then(res => {
+			  console.log(res) 
+			  
+			  uni.navigateBack()
+			}).catch(console.error)
 		}
 	}
 }
