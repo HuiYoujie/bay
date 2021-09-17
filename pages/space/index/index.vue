@@ -26,7 +26,7 @@
             close-icon-pos
             safe-area-inset-bottom="true"
         >
-            <view class="u-flex flex-col u-popup-cont">
+            <view class="u-flex u-flex-col u-popup-cont">
 				<u-gap height="80"></u-gap>
                 <u-button class="u-m-t-60" size="medium" @click="popup_show = false;">关闭弹窗</u-button>
             </view>
@@ -80,7 +80,8 @@
                         @scrolltolower="reachBottom"
                     >
                         <view class="page-box">
-                            <view v-if="furnitureInfo.length > 0" class="u-flex flex-col u-col-top u-skeleton-fillet container">
+                            <!-- <view v-if="furnitureInfo.length > 0" class="u-flex flex-col u-col-top u-skeleton-fillet container"> -->
+                            <view v-if="tabsList.length > 10" class="u-flex u-flex-col u-col-top u-skeleton-fillet container">
 								<block v-for="(item, index) in tabsList" :key="index">
 									<text class="u-skeleton-fillet">{{item.area_name}}</text>
 								</block>
@@ -88,7 +89,7 @@
 									<u-loadmore class="u-skeleton-fillet" :status="loadStatus[index]" bgcolor="#f2f2f2"></u-loadmore>
 								</view>
 							</view>
-                        	<view v-else class="u-flex flex-col u-col-center u-p-t-60">
+                        	<view v-else class="u-flex u-flex-col u-col-center u-p-t-60">
 								<u-empty  class="u-skeleton-fillet" text="暂无家具" mode="data"></u-empty>
 								<u-button class="u-m-t-40 u-skeleton-fillet" @click="addFurniture" type="primary" ripple="true" size="medium">去添加</u-button>
 							</view>
