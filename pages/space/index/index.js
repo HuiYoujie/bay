@@ -144,11 +144,24 @@ export default {
             this.$refs.uTabs.setFinishCurrent(current);
             this.swiperCurrent = current;
             this.current = current;
+			
+			this.$u.vuex('currentRoomInfo', this.roomInfo[current])
         },
 		
-		// 跳转至添加房间页面
-		addFurniture() {
-			this.$u.route('/pages/space/furniture/furniture')
+		// 跳转至添加家具页面
+		toPageAddFurniture() {
+			this.$u.route('/pages/space/furniture/furniture?roomId=' + this.roomInfo[this.current].roomId)
+		},
+		
+		// 跳转到家具物品页面 
+		furnitureDetail(e) {
+            let { current } = e.detail;
+			this.$u.route('/pages/space/thing-list/thing-list?furnitureId=' + this.furnitureInfo[current].furnitureId)
+		},
+		
+		// 跳转至添加物品页面
+		toPageAddThing(roomId) {
+			
 		},
 
         /**

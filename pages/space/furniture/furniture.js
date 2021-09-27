@@ -5,6 +5,7 @@ const {
 export default {
 	data() {
 		return {
+			roomId: '',
 			form: {
 				name: '',
 				customPicFlag: true,
@@ -17,7 +18,7 @@ export default {
 	},
 
 	onLoad(option) {
-		
+		this.roomId = option.roomId
 	},
 
 	onShow() {
@@ -73,13 +74,16 @@ export default {
 			// 检查数据
 			this.$refs.uUpload.upload();
 			
-			if(!this.form.picUrl) return
-			uni.showToast({
-				title: '图片不能为空'
-			})
+			if(!this.form.picUrl) {
+				uni.showToast({
+					title: '图片不能为空'
+				})
+				return
+			}
 			wx.cloud.callFunction({
-				name: 'furniture',
+				name: 'addFurniture', 
 				data: {
+					roomId: this.roomId,
 					userId: this.userId,
 					furnitureName: this.form.name,
 					customPicFlag: this.form.customPicFlag,

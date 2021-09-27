@@ -51,7 +51,6 @@ exports.main = async (event, context) => {
 	}).get()
 	if(user.data.length > 0) {
 		let { userId } = user.data[0]
-		console.log(1)
 		// 获取用户家庭信息
 		// let familyInfo = await cloud.callFunction({
 		//     name: 'getFamily',

@@ -81,16 +81,22 @@
                     >
                         <view class="page-box">
                             <view v-if="furnitureInfo.length > 0" class="u-flex flex-col u-col-top u-skeleton-fillet container">
-								<block v-for="(item, index) in tabsList" :key="index">
-									<text class="u-skeleton-fillet">{{item.area_name}}</text>
-								</block>
-								<view class="u-m-t-40">
-									<u-loadmore class="u-skeleton-fillet" :status="loadStatus[index]" bgcolor="#f2f2f2"></u-loadmore>
-								</view>
+								<!-- <block v-for="(item, index) in furnitureInfo" :key="index">
+									<text class="u-skeleton-fillet" @click="toPageAddThing(item.roomId)">{{item.furnitureName}}</text>
+								</block> -->
+								<u-grid :col="3" :border="true" @click="furnitureDetail">
+									<u-grid-item v-for="(item, i) in furnitureInfo" :key="i" :index="i" bg-color="transparent">
+										<u-icon name="plus-circle" :size="50" color="#1ab16c"></u-icon>
+										<view class="grid-text">{{item.furnitureName}}</view>
+									</u-grid-item>
+								</u-grid>
+								<!-- <view class="u-m-t-40" style="width: 100%;">
+									<u-loadmore class="u-skeleton-fillet" :status="loadStatus[index]" bg-color="transparent"></u-loadmore>
+								</view> -->
 							</view>
                         	<view v-else class="u-flex flex-col u-col-center u-p-t-60">
 								<u-empty  class="u-skeleton-fillet" text="暂无家具" mode="data"></u-empty>
-								<u-button class="u-m-t-40 u-skeleton-fillet" @click="addFurniture" type="primary" ripple="true" size="medium">去添加</u-button>
+								<u-button class="u-m-t-40 u-skeleton-fillet" @click="toPageAddFurniture" type="primary" ripple="true" size="medium">去添加</u-button>
 							</view>
                         </view>
                     </scroll-view>
