@@ -15,9 +15,23 @@
 ## 云开发 uni-app每次编译会出问题 
 - cnpm install --save wx-server-sdk@latest
 
-## sdk
-# @vant
-- npm i @vant/weapp -S --production
+#### SDK
+#### 
+## IM Web SDK
+# 安装
+npm install tim-wx-sdk --save 
+# 发送图片、文件等消息需要的 COS SDK
+npm install cos-wx-sdk-v5 --save 
+
+## UView
+# 安装
+npm install uview-ui 
+# 更新
+npm update uview-ui
+
+## @vant
+# 安装
+npm i @vant/weapp -S --production
 
 
 ## 全局变量以及缓存
