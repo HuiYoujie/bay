@@ -23,6 +23,7 @@
   "homepage": "https://github.com/HuiYoujie/bay#readme",
   "dependencies": {
     "moment": "^2.27.0",
-    "uview-ui": "^1.6.2"
+    "uview-ui": "^1.6.2",
+    "wx-server-sdk": "^2.5.3"
   }
 }
