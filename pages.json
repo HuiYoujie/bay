@@ -108,6 +108,8 @@
 			"path": "pages/space/index/index" //启动页面，必选
 		}]
 	},
+	
+	"cloud": true,
 
 	"lazyCodeLoading": "requiredComponents"
 }

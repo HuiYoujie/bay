@@ -64,7 +64,8 @@ exports.main = async (event, context) => {
 		// console.log(familyInfo);
 		
 		// 获取默认显示的家庭ID
-		let familyId = familyInfo.data[familyInfo.data.findIndex(v => v.isDefault === true)].familyId
+		// let familyId = familyInfo.data[familyInfo.data.findIndex(v => v.isDefault === true)].familyId
+		let familyId = familyInfo.data.find(v => v.isDefault === true).familyId
 		
 		// 获取用户房间信息
 		let roomInfo = await db.collection('room').where({

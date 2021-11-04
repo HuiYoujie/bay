@@ -12,7 +12,7 @@ try{
 }
 
 // 需要永久存储，且下次APP启动需要取出的，在state中的变量名
-let saveStateKeys = ['vuex_userId', 'vuex_openid'];
+let saveStateKeys = ['vuex_userId', 'vuex_openid', 'vuex_default_familyId'];
 
 // 保存变量到本地存储中
 const saveLifeData = function(key, value){
@@ -32,7 +32,8 @@ const store = new Vuex.Store({
 		// 如果上面从本地获取的lifeData对象下有对应的属性，就赋值给state中对应的变量
 		// 加上vuex_前缀，是防止变量名冲突，也让人一目了然
 		vuex_userId: lifeData.vuex_userId ? lifeData.vuex_userId : {name: '哞哞'},
-		vuex_openid: lifeData.openid ? lifeData.openid : '',
+		vuex_openid: lifeData.vuex_openid ? lifeData.vuex_openid : '',
+		vuex_openid: lifeData.vuex_default_familyId ? lifeData.vuex_default_familyId : '',
 		// 如果vuex_version无需保存到本地永久存储，无需lifeData.vuex_version方式
 		// 自定义tabbar数据
 		vuex_tabbar: [{
