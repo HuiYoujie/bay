@@ -183,8 +183,8 @@ export default {
 					 */
 					this.$u.vuex('vuex_userId', userId)
 					this.$u.vuex('vuex_openid', openid)
-					let default_familyId = familyInfo.find(v => v.isDefault).familyId
-					this.$u.vuex('vuex_default_familyId', default_familyId)
+					let defaultFamilyId = familyInfo.find(v => v.isDefault).familyId
+					this.$u.vuex('vuex_defaultFamilyId', defaultFamilyId)
 					
 					resolve()
 				}).catch(console.error)

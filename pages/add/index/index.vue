@@ -264,11 +264,11 @@ export default {
 									mask: true
 								})
 								wx.cloud.callFunction({
-									name: 'addFurniture',
+									name: 'addThing',
 									data: {
 										userId: this.vuex_userId,
-										default_familyId: this.$store.state.vuex_default_familyId,
-										...this.form,
+										defaultFamilyId: this.$store.state.vuex_defaultFamilyId,
+										thingForm: this.form,
 									}
 								})
 								.then(res => {
