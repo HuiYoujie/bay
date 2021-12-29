@@ -22,7 +22,7 @@
             @open="popupOpen"
             @close="popupClose"
             length="75%"
-            closeable="closeable"
+            closeable
             close-icon-pos
             safe-area-inset-bottom="true">
             <view class="u-flex u-flex-col u-popup-cont">
@@ -78,7 +78,10 @@
                         style="height: 100%;width: 100%;"
                         @scrolltolower="reachBottom">
                         <view class="page-box">
-                            <view v-if="furnitureInfo.length > 0" class="u-flex flex-col u-col-top u-skeleton-fillet container">
+							<!-- <view class="u-m-t-40" style="width: 100%;">
+								<u-loadmore class="u-skeleton-fillet" :status="loadStatus[index]" bg-color="transparent"></u-loadmore>
+							</view> -->
+                            <view v-if="furnitureInfo.length" class="u-flex flex-col u-col-top u-skeleton-fillet container">
 								<u-grid :col="3" :border="true" @click="furnitureDetail">
 									<u-grid-item v-for="(item, i) in furnitureInfo" :key="i" :index="i" bg-color="transparent">
 										<u-icon name="plus-circle" :size="50" color="#1ab16c"></u-icon>
@@ -86,8 +89,10 @@
 									</u-grid-item>
 								</u-grid>
 							</view>
-                        	<view v-else class="u-flex u-flex-col u-col-center u-p-t-60">
-								<u-empty  class="u-skeleton-fillet" text="暂无家具" mode="data"></u-empty>
+							<view v-else class="u-m-t-40">
+								<u-empty class="u-skeleton-fillet" text="暂无家具" mode="data"></u-empty>
+							</view>
+                        	<view class="u-flex u-flex-col u-col-center u-m-t-40">
 								<u-button class="u-m-t-40 u-skeleton-fillet" @click="toPageAddFurniture" type="primary" ripple="true" size="medium">去添加</u-button>
 							</view>
                         </view>
@@ -121,7 +126,7 @@ export default {
 			furnitureInfo: [], // 家具信息
 			current: 0, // tabs组件的current值，表示当前活动的tab选项
 			swiperCurrent: 0, // swiper组件的current值，表示当前那个swiper-item是活动的
-			dx: 0,
+			// dx: 0,
 			loadStatus: [],
 
 			// 顶部-左侧-底部相关数据
@@ -172,8 +177,7 @@ export default {
 					this.familyInfo = familyInfo
 					this.roomInfo = roomInfo
 					
-					let loadStatus = new Array(roomInfo.length)
-					this.loadStatus = loadStatus.fill('loadmore')
+					this.loadStatus = new Array(roomInfo.length).fill('loadmore')
 					
 					// 隐藏骨架屏
 					this.skeleton_loading = false;
@@ -233,6 +237,7 @@ export default {
 
 		// tabs通知swiper切换
 		tabsChange(index) {
+			this.furnitureInfo = []
 			this.swiperCurrent = index;
 			this.getFurnitureInfo(index);
 		},
